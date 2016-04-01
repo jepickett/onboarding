@@ -1,0 +1,13 @@
+{
+    "name": "opent2t-onboarding-winkhub",
+    "version": "1.0.0",
+    "description": "",
+    "dependencies": {
+        "inquirer": "^0.12.0"
+    },
+    "devDependencies": {
+        "optimist": "0.6.1"
+    },
+    "author": "",
+    "license": "MIT"
+}

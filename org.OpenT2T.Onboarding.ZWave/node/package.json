@@ -1,0 +1,10 @@
+{
+    "name": "opent2t-onboarding-zwave",
+    "version": "1.0.0",
+    "description": "",
+    "dependencies": {
+        "openzwave-shared": "~1.1.7"
+    },
+    "author": "",
+    "license": "MIT"
+}
