@@ -1,2 +1,3 @@
-# onboarding
-Onboarding types used by Translators
+# Onboarding Types used by Translators
+## [Onboarding is a generic term for any setup, pairing, auth, etc. that you typically need to do before you can communicate with a device](node/README.md)
+The alpha version defines a few Onboarding Types that are used by Open Translators to Things. We would love to see the community add more Onboarding Types for different categories of things.
