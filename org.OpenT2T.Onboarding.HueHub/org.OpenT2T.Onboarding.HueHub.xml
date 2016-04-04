@@ -12,7 +12,7 @@
         <!-- Defines the metadata returned by onboarding. This is converted to the props array on the device
              object, which is passed in to translators that implement this onboarding type at runtime. -->
         <signal name="success">
-            <arg name="hueAddress" type="s" direction="in" />
+            <arg name="ipAddress" type="s" direction="in" />
             <arg name="userId" type="s" direction="in" />            
             <arg name="uniqueId" type="s" direction="in" />
             <arg name="message" type="s" direction="in" />
