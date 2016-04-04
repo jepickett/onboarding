@@ -8,9 +8,9 @@ var argv = require('optimist')
 // register success and error callbacks for testing purposes (these are normally populated by the runtime)    
 function onSuccess(hueAddress, userId, uniqueId, message) {
     console.log("  hueAddress : " + hueAddress);
-    console.log("  userId : " + userId);
-    console.log("  uniqueId : " + uniqueId);
-    console.log("  message      : " + message);
+    console.log("  userId     : " + userId);
+    console.log("  uniqueId   : " + uniqueId);
+    console.log("  message    : " + message);
 
     process.exit();
 };
@@ -22,3 +22,4 @@ function onError(type, message) {
 
 // Call onboarding with provided parameters (this is normally called by the runtime when the user initiates onboarding)
 huehub.onboard(argv.n, onSuccess, onError);
+	

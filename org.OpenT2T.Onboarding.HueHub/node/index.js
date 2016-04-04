@@ -4,34 +4,36 @@ var hue = require("node-hue-api");
 var HueApi = require("node-hue-api").HueApi;
 var readline = require('readline');
 var inquirer = require('inquirer');
+var stringify = require('json-stringify-safe');
+
 
 var upnpErr = function(err) {
-    console.log(err);
+    console.log("upnpError = " + err);
 };
 
 var exit = function(err) {
     process.exit(0);
 };
 
+var LightAddress = function(uniqueid, ipaddress, userid)
+{
+	this.ipAddress = ipaddress;
+	this.uniqueId = uniqueid;
+	this.userId = userid;
+};
+
 var getLights = function(ipaddr, userId, callback) {
-    var lightAddresses = [];
     var api = new HueApi(ipaddr, userId);
+	var lightAddresses = [];
     api.lights(function(err, result) {
-        if (err)
-            console.log(err);
+        if (!!err)
+            console.log("api.lights " + err);
         else {
             for (var light of result.lights) {
-                var lightAddress = {
-                    "hueAddress": ipaddr,
-                    "userId": userId,
-                    "uniqueId": light.uniqueId
-                };
-
-                console.log('light ' + light.id + ' = ' + JSON.stringify(lightAddress));
-
-                lightAddresses.push(lightAddresses);
+				var laddress = new LightAddress( light.uniqueid, ipaddr, userId);
+                lightAddresses.push(laddress);
             }
-            callback(lightAddresses);
+			callback(lightAddresses);
             return;
         }
     });
@@ -59,19 +61,19 @@ module.exports = {
                 var hueapi = new HueApi();
                 hueapi.createUser(ipaddr, function(err, userId) {
                     if (err) {
-                        if (errorCallback) {
-                            errorCallback('Create User Error', JSON.stringify(err));
-                            return;
+						if (errorCallback) {
+                           errorCallback('Create User Error', JSON.stringify(err));
+                           return;
                         }
                     } else {
                         console.log("Created User: %s", userId);
 
                         // Step 3: get the lights attached to the Hue
                         getLights(ipaddr, userId, function(lights) {
-
+					
                             if (!!lights && lights.length > 0) {
-                                var choices = lights.map(function(light) {
-                                    return JSON.stringify(light);
+								var choices = lights.map(function(light) {
+									return JSON.stringify(light);
                                 });
 
                                 // ask the user to select a light
@@ -83,12 +85,11 @@ module.exports = {
                                         choices: choices
                                     }
                                 ], function(answers) {
-
                                     // all done. Now we have all the parameters we needed.
                                     var selectedLight = JSON.parse(answers.selectedLight);
 
                                     if (successCallback) {
-                                        successCallback(selectedLight.hueAddress, selectedLight.userId, selectedLight.uniqueId, 'All done. Happy coding!');
+										successCallback(selectedLight.ipAddress, selectedLight.userId, selectedLight.uniqueId, 'All done. Happy coding!');
                                         return;
                                     }
                                 });
@@ -99,8 +100,6 @@ module.exports = {
                                     return;
                                 }
                             }
-
-                            successCallback(lights);
                         });
                     }
                 });
